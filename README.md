@@ -2,6 +2,8 @@
 
 InfiniteHorzScroll.js is a lightweight JavaScript library that transforms any list of elements into an infinite horizontal auto-scroll widget. It is easy to use and highly customizable, making it perfect for creating engaging and dynamic web experiences.
 
+[Live demo](https://infinitehorzscroll.surge.sh/)
+
 ## Features
 - Infinite auto-scroll for any list of elements.
 - Customizable scroll duration.
@@ -77,7 +79,7 @@ To use InfiniteHorzScroll.js, follow these steps:
 
 ### Example
 
-Here’s a complete example of how to set up InfiniteHorzScroll:
+Checkout InfiniteHorzScroll.js in action with this [live demo](https://infinitehorzscroll.surge.sh/)
 
 ## License
 
