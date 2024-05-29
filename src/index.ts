@@ -38,7 +38,6 @@ class InfiniteHorzScroll {
   }
   init() {
     if (this.scroller instanceof HTMLElement && this.scroller.nodeName) {
-      console.log(this.scroller);
       this.applyWidths(this.children);
       this.prepareWrappers();
       requestAnimationFrame(() => this.scroll());
