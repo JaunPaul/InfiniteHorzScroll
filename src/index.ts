@@ -3,7 +3,7 @@ type ScrollerOptions = {
   disableMask?: boolean;
   direction?: "left" | "right";
 };
-class InfiniteScroll {
+class InfiniteHorzScroll {
   scroller: HTMLElement;
   duration: number;
   children: Element[] = [];
@@ -179,6 +179,37 @@ class InfiniteScroll {
       console.error("Element not found");
     }
   }
+  public destroy() {
+    // Remove styles and attributes added to the scroller
+    this.scroller.style.flexWrap = "";
+    this.scroller.style.display = "";
+    this.scroller.style.position = "";
+    this.scroller.style.transition = "";
+    this.scroller.style.transform = "";
+    this.scroller.removeAttribute("data-scroller-wrapper");
+    this.scroller.removeAttribute("data-startingx");
+    this.scroller.removeAttribute("data-currentx");
+
+    // Remove the wrapper and put the scroller back in its original place
+    const wrapper = this.scroller.parentNode;
+    if (wrapper && wrapper.parentNode && wrapper instanceof HTMLElement) {
+      wrapper.parentNode.replaceChild(this.scroller, wrapper);
+    }
+
+    // Remove styles and attributes from the children
+    this.children.forEach((el) => {
+      el.removeAttribute("data-scroller-total-width");
+      el.removeAttribute("data-scroller-item-index");
+      (el as HTMLElement).style.flexShrink = "";
+    });
+
+    // Reset class properties
+    this.children = [];
+    this.currentX = 0;
+    this.startingX = 0;
+    this.firstAnimation = false;
+    this.prependedItem = null;
+  }
 }
 
-export default InfiniteScroll;
+export default InfiniteHorzScroll;
