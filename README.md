@@ -27,7 +27,11 @@ InfiniteHorzScroll.js offers several advantages over traditional scrolling solut
 From a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@kreonovo/infinitescroll@latest/dist/index.js"></script>
+    <script type="module">
+      import InfiniteHorzScroll from "https://cdn.jsdelivr.net/npm/@kreonovo/infinitescroll@latest/dist/index.js";
+      const _scroller = document.getElementById("scroller");
+      new InfiniteHorzScroll(_scroller);
+    </script>
 ```
 
 Alternatively, if you are using a package manager like npm, you can install it via:
