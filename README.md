@@ -24,13 +24,11 @@ InfiniteHorzScroll.js offers several advantages over traditional scrolling solut
 
 ## Installation
 
-From a CDN:
+From a CDN as a module:
 
 ```html
     <script type="module">
       import InfiniteHorzScroll from "https://cdn.jsdelivr.net/npm/@kreonovo/infinitescroll@latest/dist/index.js";
-      const _scroller = document.getElementById("scroller");
-      new InfiniteHorzScroll(_scroller);
     </script>
 ```
 
@@ -62,7 +60,7 @@ To use InfiniteHorzScroll.js, follow these steps:
    Create a constant to store the parent element and instantiate InfiniteHorzScroll with your desired options:
 
    ```javascript
-   const parentOfListToScroll = document.getElementById('imageWrapper');
+   const imageWrapper = document.getElementById('imageWrapper');
 
    const options = {
      duration: 20, // duration in seconds which will determine the scrolling speed
@@ -70,7 +68,7 @@ To use InfiniteHorzScroll.js, follow these steps:
      direction: 'left' // optional, defaults to 'left'
    };
 
-   new InfiniteHorzScroll(parentOfListToScroll, options);
+   const scroller = new InfiniteHorzScroll(imageWrapper, options);
    ```
 
 3. **Options Configuration**

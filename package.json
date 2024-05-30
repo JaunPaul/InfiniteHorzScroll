@@ -1,6 +1,6 @@
 {
   "name": "@kreonovo/infinitescroll",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Turn any list of elements into an infinite auto scroll feature.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
