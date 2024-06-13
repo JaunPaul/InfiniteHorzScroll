@@ -41,7 +41,6 @@ class InfiniteHorzScroll {
       this.children.forEach((child, i) => {
         if (child instanceof HTMLImageElement) {
           child.addEventListener("load", () => {
-            console.log("Loaded", child);
             this.applyWidths(child, i);
           });
         } else {
