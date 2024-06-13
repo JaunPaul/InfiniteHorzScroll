@@ -38,7 +38,17 @@ class InfiniteHorzScroll {
   }
   init() {
     if (this.scroller instanceof HTMLElement && this.scroller.nodeName) {
-      this.applyWidths(this.children);
+      this.children.forEach((child, i) => {
+        if (child instanceof HTMLImageElement) {
+          child.addEventListener("load", () => {
+            console.log("Loaded", child);
+            this.applyWidths(child, i);
+          });
+        } else {
+          this.applyWidths(child, i);
+        }
+      });
+
       this.prepareWrappers();
       requestAnimationFrame(() => this.scroll());
     } else {
@@ -76,20 +86,18 @@ class InfiniteHorzScroll {
     }
     wrapper.appendChild(this.scroller);
   }
-  applyWidths(items: Element[]) {
-    if (items.length > 0) {
-      items.forEach((el, i) => {
-        let firstComputedStyle = window.getComputedStyle(el);
-        let totalWidth =
-          parseInt(firstComputedStyle.width) +
-          parseInt(firstComputedStyle.marginLeft) +
-          parseInt(firstComputedStyle.marginRight) +
-          parseInt(firstComputedStyle.paddingLeft) +
-          parseInt(firstComputedStyle.paddingRight);
-        el.setAttribute("data-scroller-total-width", String(totalWidth));
-        el.setAttribute("data-scroller-item-index", String(i));
-        (el as HTMLElement).style.flexShrink = "0";
-      });
+  applyWidths(el: Element, i: number) {
+    if (!el.hasAttribute("data-scroller-total-width")) {
+      let firstComputedStyle = window.getComputedStyle(el);
+      let totalWidth =
+        parseInt(firstComputedStyle.width) +
+        parseInt(firstComputedStyle.marginLeft) +
+        parseInt(firstComputedStyle.marginRight) +
+        parseInt(firstComputedStyle.paddingLeft) +
+        parseInt(firstComputedStyle.paddingRight);
+      el.setAttribute("data-scroller-total-width", String(totalWidth));
+      el.setAttribute("data-scroller-item-index", String(i));
+      (el as HTMLElement).style.flexShrink = "0";
     }
   }
 
