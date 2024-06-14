@@ -40,9 +40,15 @@ class InfiniteHorzScroll {
     if (this.scroller instanceof HTMLElement && this.scroller.nodeName) {
       this.children.forEach((child, i) => {
         if (child instanceof HTMLImageElement) {
-          child.addEventListener("load", () => {
+          if (child.complete) {
+            console.log("Added on complete");
             this.applyWidths(child, i);
-          });
+          } else {
+            child.addEventListener("load", () => {
+              console.log("Added on load");
+              this.applyWidths(child, i);
+            });
+          }
         } else {
           this.applyWidths(child, i);
         }
@@ -108,19 +114,15 @@ class InfiniteHorzScroll {
     this.currentX = this.getDirection(itemWidth);
     let _startingX = this.setStartingX();
 
-    // Apply the initial translation
     this.scroller.style.transition = "";
     this.scroller.style.transform = `translateX(${_startingX}px)`;
     this.scroller.setAttribute("data-startingx", `${_startingX}`);
 
-    // Use setTimeout to delay the start of the animation until after the initial translation has been rendered
     setTimeout(() => {
-      // Start the animation
       this.scroller.style.transition = `transform ${adjustedDuration}s linear`;
       this.scroller.style.transform = `translateX(${this.currentX}px)`;
       this.scroller.setAttribute("data-currentx", `${this.currentX}`);
 
-      // Schedule the next animation
       setTimeout(
         () => window.requestAnimationFrame(() => this.animate(item)),
         adjustedDuration * 1000
