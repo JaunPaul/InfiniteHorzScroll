@@ -38,19 +38,24 @@ class InfiniteHorzScroll {
   }
   init() {
     if (this.scroller instanceof HTMLElement && this.scroller.nodeName) {
-      this.children.forEach((child, i) => {
-        if (child instanceof HTMLImageElement) {
-          if (child.complete) {
-            console.log("Added on complete");
-            this.applyWidths(child, i);
-          } else {
-            child.addEventListener("load", () => {
-              console.log("Added on load");
-              this.applyWidths(child, i);
-            });
+      const lazyImageObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const child = entry.target as HTMLImageElement;
+            const index = this.getElementIndex(child);
+            this.applyWidths(child, index);
+            lazyImageObserver.unobserve(child);
           }
+        });
+      });
+
+      this.children.forEach((child, i) => {
+        this.applyIndex(child, i);
+        if (child instanceof HTMLImageElement) {
+          lazyImageObserver.observe(child);
         } else {
-          this.applyWidths(child, i);
+          const index = this.getElementIndex(child);
+          this.applyWidths(child, index);
         }
       });
 
@@ -101,11 +106,17 @@ class InfiniteHorzScroll {
         parseInt(firstComputedStyle.paddingLeft) +
         parseInt(firstComputedStyle.paddingRight);
       el.setAttribute("data-scroller-total-width", String(totalWidth));
-      el.setAttribute("data-scroller-item-index", String(i));
+
       (el as HTMLElement).style.flexShrink = "0";
     }
   }
 
+  applyIndex(el: Element, i: number) {
+    el.setAttribute("data-scroller-item-index", String(i));
+  }
+  getElementIndex(el: Element) {
+    return Number(el.getAttribute("data-scroller-item-index"));
+  }
   scroll() {
     const item = this.getItemBasedOnDirection();
     const itemWidth = this.getItemWidth(item);
